@@ -537,8 +537,6 @@ module.exports = /******/ (function(modules, runtime) {
       function getDispatchDest({ context, repo: _repo, owner: _owner }) {
         let repo, owner;
 
-        console.log({ context });
-
         if (_repo === '@') {
           repo = context.repository.name;
           owner = context.repository.owner.login;
@@ -572,15 +570,14 @@ module.exports = /******/ (function(modules, runtime) {
           console.log('Dispatching the action with these parameters:');
           console.log({ owner, repo, event_type });
 
-          const result = await octokit.repos.createDispatchEvent({
+          await octokit.repos.createDispatchEvent({
             owner,
             repo,
             event_type,
-            client_payload: client_payload ? JSON.stringify(client_payload) : '{}'
+            client_payload: client_payload || '{}'
           });
 
           console.log('Dispatch event emitted successfully!');
-          console.log(result);
         } catch (e) {
           core.setFailed(e.message);
         }
