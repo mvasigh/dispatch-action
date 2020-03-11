@@ -6,7 +6,8 @@
   "author": "Mehdi Vasigh <mehdi.vasigh@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "ncc build index.js -o dist"
+    "build": "ncc build index.js -o dist",
+    "build:commit": "git add -A && git commit -m \"generate build\" "
   },
   "dependencies": {
     "@actions/core": "^1.2.3",
@@ -22,7 +23,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged",
-      "pre-push": "git diff HEAD --exit-code && yarn build"
+      "pre-push": "git diff HEAD --exit-code && yarn build && yarn build:commit"
     }
   }
 }
