@@ -1,0 +1,15 @@
+name: 'Dispatch Action'
+description: 'Emit repository dispatch events to trigger other workflows'
+inputs:
+  token:
+    description: 'The Github access token to use (i.e. secrets.GITHUB_TOKEN)'
+    required: true
+  repo:
+    description: 'The name of the repository to dispatch the event to'
+    default: '@'
+  event-type:
+    description: 'The type of event to be dispatched'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
