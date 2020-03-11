@@ -6,10 +6,16 @@ inputs:
     required: true
   repo:
     description: 'The name of the repository to dispatch the event to'
+    required: true
     default: '@'
-  event-type:
+  owner:
+    description: 'The owner of the repository to dispatch the event to'
+    default: null
+  event_type:
     description: 'The type of event to be dispatched'
     required: true
+  client_payload:
+    description: 'The payload that should also be dispatched, as a JSON string'
 runs:
   using: 'node12'
   main: 'dist/index.js'
