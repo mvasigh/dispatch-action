@@ -1,7 +1,8 @@
 name: 'Dispatch Action'
 description: 'Emit repository dispatch events to trigger other workflows'
-icon: 'arrow-up-circle'
-color: 'yellow'
+branding: 
+  icon: 'arrow-up-circle'
+  color: 'yellow'
 inputs:
   token:
     description: 'The Github access token to use (i.e. secrets.GITHUB_TOKEN)'
