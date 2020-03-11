@@ -22,7 +22,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged",
-      "pre-push": "git diff HEAD --quiet && yarn build"
+      "pre-push": "git diff HEAD --exit-code && yarn build"
     }
   }
 }
