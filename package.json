@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "build": "ncc build index.js -o dist",
-    "build:commit": "git add -A && git commit -m \"generate build\" "
+    "build:commit": "git add -A && git commit -m \"generate build\" ",
+    "push": "./push.sh"
   },
   "dependencies": {
     "@actions/core": "^1.2.3",
@@ -22,8 +23,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged",
-      "pre-push": "git diff HEAD --exit-code && yarn build && yarn build:commit && exit > /dev/null 2>&1 && git push"
+      "pre-commit": "pretty-quick --staged"
     }
   }
 }
