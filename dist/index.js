@@ -567,12 +567,14 @@ module.exports = /******/ (function(modules, runtime) {
           const token = core.getInput('token');
           const octokit = new github.GitHub(token);
 
-          octokit.repos.createDispatchEvent({
+          await octokit.repos.createDispatchEvent({
             owner,
             repo,
             event_type,
-            client_payload: client_payload ? JSON.stringify(client_payload) : null
+            client_payload: client_payload ? JSON.stringify(client_payload) : '{}'
           });
+
+          console.log('Dispatch event emitted successfully!');
         } catch (e) {
           core.setFailed(e.message);
         }
