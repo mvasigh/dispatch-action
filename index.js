@@ -4,6 +4,8 @@ const github = require('@actions/github');
 function getDispatchDest({ context, repo: _repo, owner: _owner }) {
   let repo, owner;
 
+  console.log({ context });
+
   if (_repo === '@') {
     repo = context.repository.name;
     owner = context.repository.owner.login;
