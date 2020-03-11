@@ -554,24 +554,28 @@ module.exports = /******/ (function(modules, runtime) {
       }
 
       (async function main() {
-        const { repo, owner } = getDispatchDest({
-          context: github.context.payload,
-          repo: core.getInput('repo'),
-          owner: core.getInput('owner')
-        });
+        try {
+          const { repo, owner } = getDispatchDest({
+            context: github.context.payload,
+            repo: core.getInput('repo'),
+            owner: core.getInput('owner')
+          });
 
-        const event_type = core.getInput('event_type');
-        const client_payload = core.getInput('client_payload');
+          const event_type = core.getInput('event_type');
+          const client_payload = core.getInput('client_payload');
 
-        const token = core.getInput('token');
-        const octokit = github.GitHub(token);
+          const token = core.getInput('token');
+          const octokit = new github.GitHub(token);
 
-        octokit.repos.createDispatchEvent({
-          owner,
-          repo,
-          event_type,
-          client_payload: client_payload ? JSON.stringify(client_payload) : null
-        });
+          octokit.repos.createDispatchEvent({
+            owner,
+            repo,
+            event_type,
+            client_payload: client_payload ? JSON.stringify(client_payload) : null
+          });
+        } catch (e) {
+          core.setFailed(e.message);
+        }
       })();
 
       /***/
