@@ -1,5 +1,5 @@
-name: 'Dispatch Action'
-description: 'Emit repository dispatch events to trigger other workflows'
+name: 'Dispatch'
+description: 'Emit repository dispatch events to trigger workflows from other workflows'
 icon: arrow-up-circle
 color: yellow
 inputs:
@@ -16,8 +16,8 @@ inputs:
   event_type:
     description: 'The type of event to be dispatched'
     required: true
-  client_payload:
-    description: 'The payload that should also be dispatched, as a JSON string'
+  payload:
+    description: 'An optional JSON string payload to be dispatched'
 runs:
   using: 'node12'
   main: 'dist/index.js'

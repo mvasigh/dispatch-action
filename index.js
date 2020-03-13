@@ -41,7 +41,7 @@ function getDispatchDest({ context, repo: _repo, owner: _owner }) {
       owner,
       repo,
       event_type,
-      client_payload: client_payload || '{}'
+      client_payload: JSON.parse(client_payload) || {}
     });
 
     console.log('Dispatch event emitted successfully!');
