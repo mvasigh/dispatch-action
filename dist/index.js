@@ -565,7 +565,7 @@ module.exports = /******/ (function(modules, runtime) {
           const event_type = core.getInput('event_type');
           const data = JSON.parse(core.getInput('data') || '{}');
           const token = core.getInput('token');
-          const client_payload = { ...payload, data };
+          const client_payload = { event: payload, data };
 
           const octokit = new github.GitHub(token);
 
