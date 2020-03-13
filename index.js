@@ -30,6 +30,7 @@ function getDispatchDest({ context, repo: _repo, owner: _owner }) {
 
     const event_type = core.getInput('event_type');
     const client_payload = core.getInput('payload');
+    console.log(client_payload);
 
     const token = core.getInput('token');
     const octokit = new github.GitHub(token);
