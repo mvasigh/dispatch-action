@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "build": "ncc build index.js -o dist",
-    "build:commit": "git add -A && git commit -m \"generate build\" ",
+    "build:commit": "yarn build && git add -A && git commit -m \"generate build\" ",
     "push": "./push.sh"
   },
   "dependencies": {
