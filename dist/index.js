@@ -555,29 +555,28 @@ module.exports = /******/ (function(modules, runtime) {
 
       (async function main() {
         try {
+          const payload = github.context.payload;
           const { repo, owner } = getDispatchDest({
-            context: github.context.payload,
+            context: payload,
             repo: core.getInput('repo'),
             owner: core.getInput('owner')
           });
 
           const event_type = core.getInput('event_type');
-          const client_payload = core.getInput('client_payload');
-
+          const message = JSON.parse(core.getInput('message') || '{}');
           const token = core.getInput('token');
-          const octokit = new github.GitHub(token);
+          const client_payload = { event: payload, message }; // GH doesn't allow more than 10 keys on this object
 
-          console.log('Dispatching the action with these parameters:');
-          console.log({ owner, repo, event_type });
+          const octokit = new github.GitHub(token);
 
           await octokit.repos.createDispatchEvent({
             owner,
             repo,
             event_type,
-            client_payload: client_payload || '{}'
+            client_payload
           });
 
-          console.log('Dispatch event emitted successfully!');
+          console.log(`${event_type} event dispatched successfully!`);
         } catch (e) {
           core.setFailed(e.message);
         }
