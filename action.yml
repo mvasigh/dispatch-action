@@ -1,4 +1,4 @@
-name: 'Dispatch Action'
+name: 'Dispatch'
 description: 'Emit repository dispatch events to trigger other workflows'
 branding:
   icon: 'arrow-up-circle'
