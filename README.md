@@ -54,9 +54,31 @@ jobs:
           echo test, and deploy your project.
 ```
 
-By default, this action will hydrate the `client_payload` of the repository dispatch event with the original event payload under the `event` key. You can also send any additional data by supplying the `message` input option, which will also be available under the `message` key of the `client_payload` object. This can be used in other workflows by accessing `${{ github.event.client_payload.message }}` in any workflow triggered by this action.
+By default, this action will hydrate the `client_payload` of the repository dispatch event with the original event payload under the `event` key (equivalent to `github.context.payload`). You can also send any additional data by supplying the `message` input option, which will also be available under the `message` key of the `client_payload` object. This can be used in other workflows by accessing `${{ github.event.client_payload.message }}` in any workflow triggered by this action.
 
 Here is an example:
+
+```yaml
+# Dispatcher workflow in submodule
+steps:
+  - name: Dispatch submodule_push event
+    uses: mvasigh/dispatch-action@master
+    with:
+      token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      repo: '@'
+      event_type: submodule_push
+      data: |
+        {
+          "foo": "bar"
+        }
+```
+
+```yaml
+# Consuming workflow in parent repository
+steps:
+  - name: Print custom message
+    run: echo ${{ github.event.client_payload.message.foo }} # bar
+```
 
 ## 📝 Options
 
