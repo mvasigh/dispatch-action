@@ -29,11 +29,12 @@ function getDispatchDest({ context, repo: _repo, owner: _owner }) {
       owner: core.getInput('owner')
     });
 
-    const octokit = new github.GitHub(token);
     const event_type = core.getInput('event_type');
     const data = core.getInput('data') || {};
     const token = core.getInput('token');
     const client_payload = { ...payload, data };
+
+    const octokit = new github.GitHub(token);
 
     await octokit.repos.createDispatchEvent({
       owner,
