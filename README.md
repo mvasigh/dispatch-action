@@ -66,7 +66,7 @@ This action accepts the following options:
 
 `owner` - Github org/name of the repository's owner (event sender's name by default)
 
-`client_payload` - an optional payload to send along with the event (must be a JSON string)
+`payload` - an optional payload to send along with the event (must be a JSON string)
 
 ## Author
 
