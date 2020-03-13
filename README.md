@@ -67,7 +67,7 @@ steps:
       token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       repo: '@'
       event_type: submodule_push
-      data: |
+      message: |
         {
           "foo": "bar"
         }
