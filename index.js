@@ -30,7 +30,7 @@ function getDispatchDest({ context, repo: _repo, owner: _owner }) {
     });
 
     const event_type = core.getInput('event_type');
-    const data = core.getInput('data') || {};
+    const data = JSON.parse(core.getInput('data') || '{}');
     const token = core.getInput('token');
     const client_payload = { ...payload, data };
 
@@ -40,7 +40,7 @@ function getDispatchDest({ context, repo: _repo, owner: _owner }) {
       owner,
       repo,
       event_type,
-      client_payload: JSON.parse(client_payload) || {}
+      client_payload
     });
 
     console.log('Dispatch event emitted successfully!');
