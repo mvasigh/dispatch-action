@@ -54,7 +54,9 @@ jobs:
           echo test, and deploy your project.
 ```
 
-You can send any
+By default, this action will hydrate the `client_payload` of the repository dispatch event with the original event payload under the `event` key. You can also send any additional data by supplying the `message` input option, which will also be available under the `message` key of the `client_payload` object. This can be used in other workflows by accessing `${{ github.event.client_payload.message }}` in any workflow triggered by this action.
+
+Here is an example:
 
 ## 📝 Options
 
@@ -68,7 +70,7 @@ This action accepts the following options:
 
 `owner` - Github org/name of the repository's owner (event sender's name by default)
 
-`data` - optional data to send along with the event (must be a JSON string)
+`message` - optional data to send along with the event (must be a JSON string)
 
 ## Author
 

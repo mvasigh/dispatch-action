@@ -563,9 +563,9 @@ module.exports = /******/ (function(modules, runtime) {
           });
 
           const event_type = core.getInput('event_type');
-          const data = JSON.parse(core.getInput('data') || '{}');
+          const message = JSON.parse(core.getInput('message') || '{}');
           const token = core.getInput('token');
-          const client_payload = { event: payload, data };
+          const client_payload = { event: payload, message }; // GH doesn't allow more than 10 keys on this object
 
           const octokit = new github.GitHub(token);
 
@@ -576,7 +576,7 @@ module.exports = /******/ (function(modules, runtime) {
             client_payload
           });
 
-          console.log('Dispatch event emitted successfully!');
+          console.log(`${event_type} event dispatched successfully!`);
         } catch (e) {
           core.setFailed(e.message);
         }
