@@ -54,6 +54,8 @@ jobs:
           echo test, and deploy your project.
 ```
 
+You can send any
+
 ## 📝 Options
 
 This action accepts the following options:
@@ -66,7 +68,7 @@ This action accepts the following options:
 
 `owner` - Github org/name of the repository's owner (event sender's name by default)
 
-`payload` - an optional payload to send along with the event (must be a JSON string)
+`data` - optional data to send along with the event (must be a JSON string)
 
 ## Author
 
