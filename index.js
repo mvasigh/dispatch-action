@@ -22,11 +22,14 @@ function getDispatchDest({ context, repo: _repo, owner: _owner }) {
 
 (async function main() {
   try {
+    const context = github.context;
     const { repo, owner } = getDispatchDest({
-      context: github.context.payload,
+      context: context.payload,
       repo: core.getInput('repo'),
       owner: core.getInput('owner')
     });
+
+    console.log(context);
 
     const event_type = core.getInput('event_type');
     const client_payload = core.getInput('payload');
