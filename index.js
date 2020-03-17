@@ -52,6 +52,12 @@ function escapeJSON(str) {
 
     const event_type = core.getInput('event_type');
     const messageJSON = escapeJSON(core.getInput('message') || '{}');
+
+    if (IS_DEBUG) {
+      console.log('Custom payload to be dispatched:');
+      console.log(messageJSON);
+    }
+
     const message = JSON.parse(messageJSON);
     const token = core.getInput('token');
     const client_payload = { event: payload, message }; // GH doesn't allow more than 10 keys on this object
