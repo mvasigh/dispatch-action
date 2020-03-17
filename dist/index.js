@@ -569,7 +569,7 @@ module.exports = /******/ (function(modules, runtime) {
 
       (async function main() {
         try {
-          const IS_DEBUG = core.getInput('debug');
+          const IS_DEBUG = Number(core.getInput('debug'));
 
           const payload = github.context.payload;
           const { repo, owner } = getDispatchDest({
