@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const { escapeJSON } = require('./util');
 
 function getDispatchDest({ context, repo: _repo, owner: _owner }) {
   let repo, owner;
@@ -22,6 +23,8 @@ function getDispatchDest({ context, repo: _repo, owner: _owner }) {
 
 (async function main() {
   try {
+    const IS_DEBUG = Number(core.getInput('debug'));
+
     const payload = github.context.payload;
     const { repo, owner } = getDispatchDest({
       context: payload,
@@ -29,14 +32,31 @@ function getDispatchDest({ context, repo: _repo, owner: _owner }) {
       owner: core.getInput('owner')
     });
 
+    if (IS_DEBUG) {
+      console.log('Dispatching message to this destination:');
+      console.log({ repo, owner });
+    }
+
     const event_type = core.getInput('event_type');
-    const message = JSON.parse(core.getInput('message') || '{}');
+    const messageJSON = escapeJSON(core.getInput('message') || '{}');
+
+    if (IS_DEBUG) {
+      console.log('Custom payload to be dispatched:');
+      console.log(messageJSON);
+    }
+
+    const message = JSON.parse(messageJSON);
     const token = core.getInput('token');
     const client_payload = { event: payload, message }; // GH doesn't allow more than 10 keys on this object
 
+    if (IS_DEBUG) {
+      console.log('Preparing to dispatch message with this payload:');
+      console.log(client_payload);
+    }
+
     const octokit = new github.GitHub(token);
 
-    await octokit.repos.createDispatchEvent({
+    const res = await octokit.repos.createDispatchEvent({
       owner,
       repo,
       event_type,
@@ -44,6 +64,10 @@ function getDispatchDest({ context, repo: _repo, owner: _owner }) {
     });
 
     console.log(`${event_type} event dispatched successfully!`);
+
+    if (IS_DEBUG) {
+      console.log(res);
+    }
   } catch (e) {
     core.setFailed(e.message);
   }

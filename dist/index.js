@@ -533,6 +533,7 @@ module.exports = /******/ (function(modules, runtime) {
     /***/ 104: /***/ function(__unusedmodule, __unusedexports, __webpack_require__) {
       const core = __webpack_require__(470);
       const github = __webpack_require__(469);
+      const { escapeJSON } = __webpack_require__(702);
 
       function getDispatchDest({ context, repo: _repo, owner: _owner }) {
         let repo, owner;
@@ -555,6 +556,8 @@ module.exports = /******/ (function(modules, runtime) {
 
       (async function main() {
         try {
+          const IS_DEBUG = Number(core.getInput('debug'));
+
           const payload = github.context.payload;
           const { repo, owner } = getDispatchDest({
             context: payload,
@@ -562,14 +565,31 @@ module.exports = /******/ (function(modules, runtime) {
             owner: core.getInput('owner')
           });
 
+          if (IS_DEBUG) {
+            console.log('Dispatching message to this destination:');
+            console.log({ repo, owner });
+          }
+
           const event_type = core.getInput('event_type');
-          const message = JSON.parse(core.getInput('message') || '{}');
+          const messageJSON = escapeJSON(core.getInput('message') || '{}');
+
+          if (IS_DEBUG) {
+            console.log('Custom payload to be dispatched:');
+            console.log(messageJSON);
+          }
+
+          const message = JSON.parse(messageJSON);
           const token = core.getInput('token');
           const client_payload = { event: payload, message }; // GH doesn't allow more than 10 keys on this object
 
+          if (IS_DEBUG) {
+            console.log('Preparing to dispatch message with this payload:');
+            console.log(client_payload);
+          }
+
           const octokit = new github.GitHub(token);
 
-          await octokit.repos.createDispatchEvent({
+          const res = await octokit.repos.createDispatchEvent({
             owner,
             repo,
             event_type,
@@ -577,6 +597,10 @@ module.exports = /******/ (function(modules, runtime) {
           });
 
           console.log(`${event_type} event dispatched successfully!`);
+
+          if (IS_DEBUG) {
+            console.log(res);
+          }
         } catch (e) {
           core.setFailed(e.message);
         }
@@ -8915,6 +8939,19 @@ module.exports = /******/ (function(modules, runtime) {
       }
 
       exports.Deprecation = Deprecation;
+
+      /***/
+    },
+
+    /***/ 702: /***/ function(__unusedmodule, exports) {
+      exports.escapeJSON = function(str) {
+        return str
+          .trim()
+          .replace(/^\{[^"]+\"/g, '{"')
+          .replace(/[\s]+\}$/g, '}')
+          .replace(/,[\s]*"/g, ',"')
+          .replace(/[\n]/g, '\\n');
+      };
 
       /***/
     },
