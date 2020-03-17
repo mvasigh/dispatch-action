@@ -1,6 +1,6 @@
 {
   "name": "dispatch-action",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "main": "index.js",
   "repository": "https://github.com/mvasigh/dispatch-action.git",
   "author": "Mehdi Vasigh <mehdi.vasigh@gmail.com>",

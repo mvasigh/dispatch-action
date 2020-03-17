@@ -1,6 +1,6 @@
 # `dispatch-action`
 
-![Version](https://img.shields.io/badge/version-1.1.0-blue.svg?cacheSeconds=2592000)
+![Version](https://img.shields.io/badge/version-1.1.2-blue.svg?cacheSeconds=2592000)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
 [![Twitter: mehdi_vasigh](https://img.shields.io/twitter/follow/mehdi_vasigh.svg?style=social)](https://twitter.com/mehdi_vasigh)
 
