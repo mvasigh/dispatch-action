@@ -533,6 +533,7 @@ module.exports = /******/ (function(modules, runtime) {
     /***/ 104: /***/ function(__unusedmodule, __unusedexports, __webpack_require__) {
       const core = __webpack_require__(470);
       const github = __webpack_require__(469);
+      const { escapeJSON } = __webpack_require__(702);
 
       function getDispatchDest({ context, repo: _repo, owner: _owner }) {
         let repo, owner;
@@ -551,18 +552,6 @@ module.exports = /******/ (function(modules, runtime) {
           repo,
           owner
         };
-      }
-
-      // https://stackoverflow.com/questions/4253367/how-to-escape-a-json-string-containing-newline-characters-using-javascript
-      function escapeJSON(str) {
-        return str
-          .trim()
-          .replace(/\\n/g, '\\n')
-          .replace(/\\"/g, '\\"')
-          .replace(/\\r/g, '\\r')
-          .replace(/\\t/g, '\\t')
-          .replace(/\\b/g, '\\b')
-          .replace(/\\f/g, '\\f');
       }
 
       (async function main() {
@@ -8950,6 +8939,19 @@ module.exports = /******/ (function(modules, runtime) {
       }
 
       exports.Deprecation = Deprecation;
+
+      /***/
+    },
+
+    /***/ 702: /***/ function(__unusedmodule, exports) {
+      exports.escapeJSON = function(str) {
+        return str
+          .trim()
+          .replace(/^\{[^"]+\"/g, '{"')
+          .replace(/[\s]+\}$/g, '}')
+          .replace(/,[\s]*"/g, ',"')
+          .replace(/[\n]/g, '\\n');
+      };
 
       /***/
     },

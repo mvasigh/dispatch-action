@@ -8,6 +8,8 @@
   "scripts": {
     "build": "ncc build index.js -o dist",
     "build:commit": "yarn build && git add -A && git commit -m \"generate build\" ",
+    "test:watch": "jest --watch",
+    "test": "jest --collect-coverage",
     "push": "./push.sh"
   },
   "dependencies": {

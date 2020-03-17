@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const { escapeJSON } = require('./util');
 
 function getDispatchDest({ context, repo: _repo, owner: _owner }) {
   let repo, owner;
@@ -18,18 +19,6 @@ function getDispatchDest({ context, repo: _repo, owner: _owner }) {
     repo,
     owner
   };
-}
-
-// https://stackoverflow.com/questions/4253367/how-to-escape-a-json-string-containing-newline-characters-using-javascript
-function escapeJSON(str) {
-  return str
-    .trim()
-    .replace(/\\n/g, '\\n')
-    .replace(/\\"/g, '\\"')
-    .replace(/\\r/g, '\\r')
-    .replace(/\\t/g, '\\t')
-    .replace(/\\b/g, '\\b')
-    .replace(/\\f/g, '\\f');
 }
 
 (async function main() {
