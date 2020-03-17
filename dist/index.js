@@ -553,8 +553,23 @@ module.exports = /******/ (function(modules, runtime) {
         };
       }
 
+      // https://stackoverflow.com/questions/4253367/how-to-escape-a-json-string-containing-newline-characters-using-javascript
+      function escapeJSON(str) {
+        return str
+          .replace(/[\\]/g, '\\\\')
+          .replace(/[\"]/g, '\\"')
+          .replace(/[\/]/g, '\\/')
+          .replace(/[\b]/g, '\\b')
+          .replace(/[\f]/g, '\\f')
+          .replace(/[\n]/g, '\\n')
+          .replace(/[\r]/g, '\\r')
+          .replace(/[\t]/g, '\\t');
+      }
+
       (async function main() {
         try {
+          const IS_DEBUG = core.getInput('debug');
+
           const payload = github.context.payload;
           const { repo, owner } = getDispatchDest({
             context: payload,
@@ -562,14 +577,25 @@ module.exports = /******/ (function(modules, runtime) {
             owner: core.getInput('owner')
           });
 
+          if (IS_DEBUG) {
+            console.log('Dispatching message to this destination:');
+            console.log({ repo, owner });
+          }
+
           const event_type = core.getInput('event_type');
-          const message = JSON.parse(core.getInput('message') || '{}');
+          const messageJSON = escapeJSON(core.getInput('message') || '{}');
+          const message = JSON.parse(messageJSON);
           const token = core.getInput('token');
           const client_payload = { event: payload, message }; // GH doesn't allow more than 10 keys on this object
 
+          if (IS_DEBUG) {
+            console.log('Preparing to dispatch message with this payload:');
+            console.log(client_payload);
+          }
+
           const octokit = new github.GitHub(token);
 
-          await octokit.repos.createDispatchEvent({
+          const res = await octokit.repos.createDispatchEvent({
             owner,
             repo,
             event_type,
@@ -577,6 +603,10 @@ module.exports = /******/ (function(modules, runtime) {
           });
 
           console.log(`${event_type} event dispatched successfully!`);
+
+          if (IS_DEBUG) {
+            console.log(res);
+          }
         } catch (e) {
           core.setFailed(e.message);
         }

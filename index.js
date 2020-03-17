@@ -35,6 +35,8 @@ function escapeJSON(str) {
 
 (async function main() {
   try {
+    const IS_DEBUG = core.getInput('debug');
+
     const payload = github.context.payload;
     const { repo, owner } = getDispatchDest({
       context: payload,
@@ -42,15 +44,25 @@ function escapeJSON(str) {
       owner: core.getInput('owner')
     });
 
+    if (IS_DEBUG) {
+      console.log('Dispatching message to this destination:');
+      console.log({ repo, owner });
+    }
+
     const event_type = core.getInput('event_type');
     const messageJSON = escapeJSON(core.getInput('message') || '{}');
     const message = JSON.parse(messageJSON);
     const token = core.getInput('token');
     const client_payload = { event: payload, message }; // GH doesn't allow more than 10 keys on this object
 
+    if (IS_DEBUG) {
+      console.log('Preparing to dispatch message with this payload:');
+      console.log(client_payload);
+    }
+
     const octokit = new github.GitHub(token);
 
-    await octokit.repos.createDispatchEvent({
+    const res = await octokit.repos.createDispatchEvent({
       owner,
       repo,
       event_type,
@@ -58,6 +70,10 @@ function escapeJSON(str) {
     });
 
     console.log(`${event_type} event dispatched successfully!`);
+
+    if (IS_DEBUG) {
+      console.log(res);
+    }
   } catch (e) {
     core.setFailed(e.message);
   }
