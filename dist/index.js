@@ -556,6 +556,7 @@ module.exports = /******/ (function(modules, runtime) {
       // https://stackoverflow.com/questions/4253367/how-to-escape-a-json-string-containing-newline-characters-using-javascript
       function escapeJSON(str) {
         return str
+          .trim()
           .replace(/[\\]/g, '\\\\')
           .replace(/[\"]/g, '\\"')
           .replace(/[\/]/g, '\\/')
