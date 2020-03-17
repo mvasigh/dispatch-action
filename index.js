@@ -20,6 +20,19 @@ function getDispatchDest({ context, repo: _repo, owner: _owner }) {
   };
 }
 
+// https://stackoverflow.com/questions/4253367/how-to-escape-a-json-string-containing-newline-characters-using-javascript
+function escapeJSON(str) {
+  return str
+    .replace(/[\\]/g, '\\\\')
+    .replace(/[\"]/g, '\\"')
+    .replace(/[\/]/g, '\\/')
+    .replace(/[\b]/g, '\\b')
+    .replace(/[\f]/g, '\\f')
+    .replace(/[\n]/g, '\\n')
+    .replace(/[\r]/g, '\\r')
+    .replace(/[\t]/g, '\\t');
+}
+
 (async function main() {
   try {
     const payload = github.context.payload;
@@ -30,7 +43,8 @@ function getDispatchDest({ context, repo: _repo, owner: _owner }) {
     });
 
     const event_type = core.getInput('event_type');
-    const message = JSON.parse(core.getInput('message') || '{}');
+    const messageJSON = escapeJSON(core.getInput('message') || '{}');
+    const message = JSON.parse(messageJSON);
     const token = core.getInput('token');
     const client_payload = { event: payload, message }; // GH doesn't allow more than 10 keys on this object
 
