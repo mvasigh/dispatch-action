@@ -557,14 +557,12 @@ module.exports = /******/ (function(modules, runtime) {
       function escapeJSON(str) {
         return str
           .trim()
-          .replace(/[\\]/g, '\\\\')
-          .replace(/[\"]/g, '\\"')
-          .replace(/[\/]/g, '\\/')
-          .replace(/[\b]/g, '\\b')
-          .replace(/[\f]/g, '\\f')
-          .replace(/[\n]/g, '\\n')
-          .replace(/[\r]/g, '\\r')
-          .replace(/[\t]/g, '\\t');
+          .replace(/\\n/g, '\\n')
+          .replace(/\\"/g, '\\"')
+          .replace(/\\r/g, '\\r')
+          .replace(/\\t/g, '\\t')
+          .replace(/\\b/g, '\\b')
+          .replace(/\\f/g, '\\f');
       }
 
       (async function main() {
