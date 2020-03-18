@@ -35,7 +35,7 @@ module.exports = /******/ (function(modules, runtime) {
   /******/
   /******/ /******/ function startup() {
     /******/ // Load entry module and return exports
-    /******/ return __webpack_require__(104);
+    /******/ return __webpack_require__(676);
     /******/
   } // run startup
   /******/
@@ -526,85 +526,6 @@ module.exports = /******/ (function(modules, runtime) {
 
     /***/ 87: /***/ function(module) {
       module.exports = require('os');
-
-      /***/
-    },
-
-    /***/ 104: /***/ function(__unusedmodule, __unusedexports, __webpack_require__) {
-      const core = __webpack_require__(470);
-      const github = __webpack_require__(469);
-      const { escapeJSON } = __webpack_require__(702);
-
-      function getDispatchDest({ context, repo: _repo, owner: _owner }) {
-        let repo, owner;
-
-        if (_repo === '@') {
-          repo = context.repository.name;
-          owner = context.repository.owner.login;
-        } else if (_repo.includes('/')) {
-          [repo, owner] = _repo.split('/');
-        } else {
-          repo = _repo;
-          owner = _owner || context.repository.owner.login;
-        }
-
-        return {
-          repo,
-          owner
-        };
-      }
-
-      (async function main() {
-        try {
-          const IS_DEBUG = Number(core.getInput('debug'));
-
-          const payload = github.context.payload;
-          const { repo, owner } = getDispatchDest({
-            context: payload,
-            repo: core.getInput('repo'),
-            owner: core.getInput('owner')
-          });
-
-          if (IS_DEBUG) {
-            console.log('Dispatching message to this destination:');
-            console.log({ repo, owner });
-          }
-
-          const event_type = core.getInput('event_type');
-          const messageJSON = escapeJSON(core.getInput('message') || '{}');
-
-          if (IS_DEBUG) {
-            console.log('Custom payload to be dispatched:');
-            console.log(messageJSON);
-          }
-
-          const message = JSON.parse(messageJSON);
-          const token = core.getInput('token');
-          const client_payload = { event: payload, message }; // GH doesn't allow more than 10 keys on this object
-
-          if (IS_DEBUG) {
-            console.log('Preparing to dispatch message with this payload:');
-            console.log(client_payload);
-          }
-
-          const octokit = new github.GitHub(token);
-
-          const res = await octokit.repos.createDispatchEvent({
-            owner,
-            repo,
-            event_type,
-            client_payload
-          });
-
-          console.log(`${event_type} event dispatched successfully!`);
-
-          if (IS_DEBUG) {
-            console.log(res);
-          }
-        } catch (e) {
-          core.setFailed(e.message);
-        }
-      })();
 
       /***/
     },
@@ -8773,6 +8694,85 @@ module.exports = /******/ (function(modules, runtime) {
       /***/
     },
 
+    /***/ 648: /***/ function(__unusedmodule, exports) {
+      /*! JSON.minify()
+	v0.1 (c) Kyle Simpson
+	MIT License
+*/
+      exports.minifyJSON = function(json) {
+        var tokenizer = /"|(\/\*)|(\*\/)|(\/\/)|\n|\r/g,
+          in_string = false,
+          in_multiline_comment = false,
+          in_singleline_comment = false,
+          tmp,
+          tmp2,
+          new_str = [],
+          ns = 0,
+          from = 0,
+          lc,
+          rc;
+
+        tokenizer.lastIndex = 0;
+
+        while ((tmp = tokenizer.exec(json))) {
+          lc = RegExp.leftContext;
+          rc = RegExp.rightContext;
+          if (!in_multiline_comment && !in_singleline_comment) {
+            tmp2 = lc.substring(from);
+            if (!in_string) {
+              tmp2 = tmp2.replace(/(\n|\r|\s)*/g, '');
+            }
+            new_str[ns++] = tmp2;
+          }
+          from = tokenizer.lastIndex;
+
+          if (tmp[0] == '"' && !in_multiline_comment && !in_singleline_comment) {
+            tmp2 = lc.match(/(\\)*$/);
+            if (!in_string || !tmp2 || tmp2[0].length % 2 == 0) {
+              // start of string with ", or unescaped " character found to end string
+              in_string = !in_string;
+            }
+            from--; // include " character in next catch
+            rc = json.substring(from);
+          } else if (
+            tmp[0] == '/*' &&
+            !in_string &&
+            !in_multiline_comment &&
+            !in_singleline_comment
+          ) {
+            in_multiline_comment = true;
+          } else if (
+            tmp[0] == '*/' &&
+            !in_string &&
+            in_multiline_comment &&
+            !in_singleline_comment
+          ) {
+            in_multiline_comment = false;
+          } else if (
+            tmp[0] == '//' &&
+            !in_string &&
+            !in_multiline_comment &&
+            !in_singleline_comment
+          ) {
+            in_singleline_comment = true;
+          } else if (
+            (tmp[0] == '\n' || tmp[0] == '\r') &&
+            !in_string &&
+            !in_multiline_comment &&
+            in_singleline_comment
+          ) {
+            in_singleline_comment = false;
+          } else if (!in_multiline_comment && !in_singleline_comment && !/\n|\r|\s/.test(tmp[0])) {
+            new_str[ns++] = tmp[0];
+          }
+        }
+        new_str[ns++] = rc;
+        return new_str.join('');
+      };
+
+      /***/
+    },
+
     /***/ 649: /***/ function(module, __unusedexports, __webpack_require__) {
       module.exports = getLastPage;
 
@@ -8900,6 +8900,85 @@ module.exports = /******/ (function(modules, runtime) {
       /***/
     },
 
+    /***/ 676: /***/ function(__unusedmodule, __unusedexports, __webpack_require__) {
+      const core = __webpack_require__(470);
+      const github = __webpack_require__(469);
+      const { escapeJSON } = __webpack_require__(648);
+
+      function getDispatchDest({ context, repo: _repo, owner: _owner }) {
+        let repo, owner;
+
+        if (_repo === '@') {
+          repo = context.repository.name;
+          owner = context.repository.owner.login;
+        } else if (_repo.includes('/')) {
+          [repo, owner] = _repo.split('/');
+        } else {
+          repo = _repo;
+          owner = _owner || context.repository.owner.login;
+        }
+
+        return {
+          repo,
+          owner
+        };
+      }
+
+      (async function main() {
+        try {
+          const IS_DEBUG = Number(core.getInput('debug'));
+
+          const payload = github.context.payload;
+          const { repo, owner } = getDispatchDest({
+            context: payload,
+            repo: core.getInput('repo'),
+            owner: core.getInput('owner')
+          });
+
+          if (IS_DEBUG) {
+            console.log('Dispatching message to this destination:');
+            console.log({ repo, owner });
+          }
+
+          const event_type = core.getInput('event_type');
+          const messageJSON = escapeJSON(core.getInput('message') || '{}');
+
+          if (IS_DEBUG) {
+            console.log('Custom payload to be dispatched:');
+            console.log(messageJSON);
+          }
+
+          const message = JSON.parse(messageJSON);
+          const token = core.getInput('token');
+          const client_payload = { event: payload, message }; // GH doesn't allow more than 10 keys on this object
+
+          if (IS_DEBUG) {
+            console.log('Preparing to dispatch message with this payload:');
+            console.log(client_payload);
+          }
+
+          const octokit = new github.GitHub(token);
+
+          const res = await octokit.repos.createDispatchEvent({
+            owner,
+            repo,
+            event_type,
+            client_payload
+          });
+
+          console.log(`${event_type} event dispatched successfully!`);
+
+          if (IS_DEBUG) {
+            console.log(res);
+          }
+        } catch (e) {
+          core.setFailed(e.message);
+        }
+      })();
+
+      /***/
+    },
+
     /***/ 682: /***/ function(module) {
       'use strict';
 
@@ -8939,19 +9018,6 @@ module.exports = /******/ (function(modules, runtime) {
       }
 
       exports.Deprecation = Deprecation;
-
-      /***/
-    },
-
-    /***/ 702: /***/ function(__unusedmodule, exports) {
-      exports.escapeJSON = function(str) {
-        return str
-          .trim()
-          .replace(/^\{[^"]+\"/g, '{"')
-          .replace(/[\s]+\}$/g, '}')
-          .replace(/,[\s]*"/g, ',"')
-          .replace(/[\n]/g, '\\n');
-      };
 
       /***/
     },
