@@ -1,6 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const { escapeJSON } = require('./util');
+const { minifyJSON } = require('./util');
 
 function getDispatchDest({ context, repo: _repo, owner: _owner }) {
   let repo, owner;
@@ -38,7 +38,7 @@ function getDispatchDest({ context, repo: _repo, owner: _owner }) {
     }
 
     const event_type = core.getInput('event_type');
-    const messageJSON = escapeJSON(core.getInput('message') || '{}');
+    const messageJSON = minifyJSON(core.getInput('message') || '{}');
 
     if (IS_DEBUG) {
       console.log('Custom payload to be dispatched:');
