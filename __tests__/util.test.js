@@ -1,4 +1,4 @@
-const util = require('../util');
+const util = require('../src/util');
 
 test('escapeJSON', () => {
   const input = `{
@@ -8,6 +8,6 @@ test('escapeJSON', () => {
     ",
     "baz": 1234
   }`.trim();
-  const escaped = util.escapeJSON(input);
-  expect(JSON.parse(escaped)).toBeTruthy();
+  const minified = util.minifyJSON(input);
+  expect(JSON.parse(minified)).toBeTruthy();
 });
