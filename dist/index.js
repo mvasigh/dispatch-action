@@ -8903,7 +8903,7 @@ module.exports = /******/ (function(modules, runtime) {
     /***/ 676: /***/ function(__unusedmodule, __unusedexports, __webpack_require__) {
       const core = __webpack_require__(470);
       const github = __webpack_require__(469);
-      const { escapeJSON } = __webpack_require__(648);
+      const { minifyJSON } = __webpack_require__(648);
 
       function getDispatchDest({ context, repo: _repo, owner: _owner }) {
         let repo, owner;
@@ -8941,7 +8941,7 @@ module.exports = /******/ (function(modules, runtime) {
           }
 
           const event_type = core.getInput('event_type');
-          const messageJSON = escapeJSON(core.getInput('message') || '{}');
+          const messageJSON = minifyJSON(core.getInput('message') || '{}');
 
           if (IS_DEBUG) {
             console.log('Custom payload to be dispatched:');
