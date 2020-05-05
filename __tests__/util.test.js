@@ -281,9 +281,16 @@ const testJSON = [
   ]`
 ];
 
-test('minifyJSON', () => {
-  for (let input of testJSON) {
-    const minified = util.minifyJSON(input);
-    expect(JSON.parse(minified)).toBeTruthy();
-  }
+describe('minifyJSON', () => {
+  it('properly parses JSON payloads', () => {
+    for (let input of testJSON) {
+      const minified = util.minifyJSON(input);
+      expect(JSON.parse(minified)).toBeTruthy();
+    }
+  });
+
+  it('gracefully handles empty strings', () => {
+    const minified = util.minifyJSON('');
+    expect(minified).toBe('');
+  });
 });
