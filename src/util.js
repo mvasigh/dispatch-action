@@ -2,7 +2,7 @@
 	v0.1 (c) Kyle Simpson
 	MIT License
 */
-exports.minifyJSON = function(json) {
+exports.minifyJSON = function(json = '') {
   var tokenizer = /"|(\/\*)|(\*\/)|(\/\/)|\n|\r/g,
     in_string = false,
     in_multiline_comment = false,
