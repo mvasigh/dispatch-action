@@ -17,7 +17,7 @@ inputs:
   event_type:
     description: 'The type of event to be dispatched'
     required: true
-  payload:
+  message:
     description: 'An optional JSON string payload to be dispatched'
   debug:
     description: 'Enable verbose logging for debugging your workflow. Not recommended for production'
