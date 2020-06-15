@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Emit repository_dispatch
-        uses: mvasigh/dispatch-action@master
+        uses: mvasigh/dispatch-action@main
         with:
           # You should create a personal access token and store it in your repository
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
@@ -62,7 +62,7 @@ Here is an example:
 # Dispatcher workflow in submodule
 steps:
   - name: Dispatch submodule_push event
-    uses: mvasigh/dispatch-action@master
+    uses: mvasigh/dispatch-action@main
     with:
       token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       repo: '@'
