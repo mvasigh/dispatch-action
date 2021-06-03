@@ -84,7 +84,7 @@ steps:
 
 This action accepts the following options:
 
-`token` **(required)** - a Github [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line)
+`token` **(required)** - a Github [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) with the `repo` scope enabled
 
 `event_type` **(required)** - a name for the type of event that you are emitting
 
