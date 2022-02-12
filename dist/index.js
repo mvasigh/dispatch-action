@@ -12277,7 +12277,7 @@ const { getDispatchDest, createMessagePayload } = __nccwpck_require__(6804);
     }
 
     const octokit = github.getOctokit(inputs.token);
-    const res = await octokit.repos.createDispatchEvent({
+    const res = await octokit.rest.repos.createDispatchEvent({
       owner,
       repo,
       event_type: inputs.event_type,
