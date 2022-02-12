@@ -39,7 +39,7 @@ const { getDispatchDest, createMessagePayload } = require('./lib');
       console.log(JSON.stringify(client_payload, null, 2));
     }
 
-    const octokit = new github.GitHub(inputs.token);
+    const octokit = github.getOctokit(inputs.token);
     const res = await octokit.repos.createDispatchEvent({
       owner,
       repo,
