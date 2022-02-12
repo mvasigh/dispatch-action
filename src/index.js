@@ -11,7 +11,8 @@ const { getDispatchDest, createMessagePayload } = require('./lib');
       repo: core.getInput('repo'),
       owner: core.getInput('owner'),
       event_type: core.getInput('event_type'),
-      message: core.getInput('message')
+      message: core.getInput('message'),
+      forwardEventPayload: core.getInput('forwardEventPayload') !== "false",
     };
 
     const { repo, owner } = getDispatchDest({
@@ -30,7 +31,7 @@ const { getDispatchDest, createMessagePayload } = require('./lib');
     }
 
     const client_payload = createMessagePayload(inputs.message, {
-      event: github.context.payload
+      event: inputs.forwardEventPayload ? github.context.payload : {},
     }); // GH doesn't allow more than 10 keys on payload object
 
     if (IS_DEBUG) {

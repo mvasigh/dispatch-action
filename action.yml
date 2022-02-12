@@ -19,6 +19,9 @@ inputs:
     required: true
   message:
     description: 'An optional JSON string payload to be dispatched'
+  forwardEventPayload:
+    description: 'Whether to forward the event payload or not'
+    default: 'true'
   debug:
     description: 'Enable verbose logging for debugging your workflow. Not recommended for production'
     default: 0
