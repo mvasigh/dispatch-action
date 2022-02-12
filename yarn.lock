@@ -834,11 +834,6 @@
   resolved "https://registry.npmjs.org/@vercel/ncc/-/ncc-0.33.2.tgz"
   integrity sha512-rzl7vNljla3/qZeHDlk8k+4LYGI793LewFgrnPRBBMdpUdJNoy8wJ/bYDzKWbTbmPfWzHgkiBZsynW12JrAMdg==
 
-"@zeit/ncc@^0.21.1":
-  version "0.21.1"
-  resolved "https://registry.npmjs.org/@zeit/ncc/-/ncc-0.21.1.tgz"
-  integrity sha512-M9WzgquSOt2nsjRkYM9LRylBLmmlwNCwYbm3Up3PDEshfvdmIfqpFNSK8EJvR18NwZjGHE5z2avlDtYQx2JQnw==
-
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"
   resolved "https://registry.npmjs.org/abab/-/abab-2.0.5.tgz"
