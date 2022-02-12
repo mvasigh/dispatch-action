@@ -13,17 +13,18 @@
     "push": "./push.sh"
   },
   "dependencies": {
-    "@actions/core": "^1.2.6",
-    "@actions/github": "^2.1.1"
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.0"
   },
   "devDependencies": {
+    "@vercel/ncc": "^0.33.2",
     "@zeit/ncc": "^0.21.1",
-    "eslint": "^6.8.0",
-    "eslint-plugin-jest": "^23.9.0",
-    "husky": "^4.2.3",
-    "jest": "^25.1.0",
-    "prettier": "^1.19.1",
-    "pretty-quick": "^2.0.1"
+    "eslint": "^8.9.0",
+    "eslint-plugin-jest": "^26.1.0",
+    "husky": "^7.0.4",
+    "jest": "^27.5.1",
+    "prettier": "^2.5.1",
+    "pretty-quick": "^3.1.3"
   },
   "husky": {
     "hooks": {
