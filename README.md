@@ -1,5 +1,7 @@
 # `dispatch-action`
 
+## ⚠️ This action is no longer maintained! Consider using an alternative, like [this one](https://github.com/marketplace/actions/repository-dispatch)
+
 ![Version](https://img.shields.io/badge/version-1.1.6-blue.svg?cacheSeconds=2592000)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
 [![Twitter: mehdi_vasigh](https://img.shields.io/twitter/follow/mehdi_vasigh.svg?style=social)](https://twitter.com/mehdi_vasigh)
