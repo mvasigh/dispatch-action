@@ -96,6 +96,8 @@ This action accepts the following options:
 
 `message` - optional data to send along with the event (must be a JSON string)
 
+`forwardEventPayload` - can be set to `false` to disable the forwarding of the event payload
+
 ## Author
 
 👤 **Mehdi Vasigh <mehdi.vasigh@gmail.com>**
